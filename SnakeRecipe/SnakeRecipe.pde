@@ -2,15 +2,17 @@
 // 1. Follow the recipe instructions inside the Segment class.
 
 // The Segment class will be used to represent each part of the moving snake.
+
+class Segment {
 int x= 0;
 int y= 0;
-class Segment {
-
   //2. Create x and y member variables to hold the location of each segment.
 
   // 3. Add a constructor with parameters to initialize each variable.
-
-
+ Segment(int x, int y) {
+this.x=x;
+ this.y=y;
+  }
   // 4. Add getter and setter methods for both the x and y member variables.
   int getX(){
     return x;
@@ -18,7 +20,12 @@ class Segment {
    int getY(){
     return y;
   }
-  
+void setX(int x){
+  this.x= x;  
+  }
+  void setY(int y){
+  this.y= y;  
+  }
   
 }
 
@@ -28,16 +35,16 @@ Segment head;
 
 
 // 6. Create and initialize a String to hold the direction of your snake e.g. "up"
-
+String direction= "up";
 
 
 // 7. Create and initialize a variable to hold how many pieces of food the snake has eaten.
 // give it a value of 1 to start.
-
-
+String numOfFoodConsumed= new String();
 
 // 8. Create and initialize foodX and foodY variables to hold the location of the food.
-
+int foodX = ((int)random(50)*10);
+int foodY = ((int)random(50)*10);
 // (Hint: use the random method to set both the x and y to random locations within the screen size (500 by 500).)
 
 //int foodX = ((int)random(50)*10);
@@ -52,9 +59,11 @@ void setup() {
 
 
   // 10. initialize your head to a new segment.
-
+head= new Segment(0,0);
 
   // 11. Use the frameRate(int rate) method to set the rate to 20.
+   
+frameRate(20);
 }
 
 
@@ -64,12 +73,19 @@ void draw() {
 
 
   //12. Call the manageTail, drawFood, drawSnake, move, and collision methods.
+  manageTail();
+  drawFood();
+  drawSnake();
+  move();
+  collision();
 }
 
 
 // 13. Complete the drawFood method below. (Hint: each piece of food should be a 10 by 10 rectangle).
 
 void drawFood() {
+  fill(255,255,255);
+  rect(foodX, foodY, 10, 10);
 }
 
 
@@ -77,7 +93,9 @@ void drawFood() {
 
 void drawSnake() {
 
-
+ fill(0,255,255);
+  rect(300, 200, 10, 10);
+  
   //test your code
 }
 
@@ -88,31 +106,55 @@ void move() {
 
   // 16. Using a switch statement, make your snake head move by 10 pixels in the correct direction.
   //This is an incomplete switch statement:
-  /*
-  switch(dir) {
+ 
+ 
+  switch(direction) {
   case "up":
-    // move head up here 
+     head.setY(head.getY()+10);
     break;
   case "down":
-    // move head down here 
+    head.setY(head.getY()-10);
     break;
   case "left":
-   // figure it out 
+    head.setX(head.getX()-10);
     break;
   case "right":
-    // mystery code goes here 
+     head.setX(head.getX()-10);
     break;
   }
-  */
+
 
 
   // 17. Call the checkBoundaries method to make sure the snake head doesn't go off the screen.
+  checkBoundaries();
 }
 
 
 // 18. Complete the keyPressed method below. Use if statements to set your direction variable depending on what key is pressed.
 
 void keyPressed() {
+    if (keyCode == UP) {
+     if(!direction.equals("down")){
+  direction="up";
+}
+    }
+    if (keyCode == DOWN) {
+      if(!direction.equals("up")){
+  direction="down";
+}
+    }
+    if (keyCode == LEFT) {
+      if(!direction.equals("right")){
+  direction="left";
+}
+    }
+    if (keyCode == RIGHT) {
+      if(!direction.equals("left")){
+  direction="right";
+}
+    }
+    
+    
 }
 
 
@@ -120,11 +162,13 @@ void keyPressed() {
 // 19. check if your head is out of bounds (teleport your snake head to the other side).
 
 void checkBoundaries() {
+  boolean headInBounds=true;
 }
 
 
 
 //20. Make sure that the key for your current direction’s opposite doesn’t work(i.e. If you’re going up, down key shouldn’t work)
+
 
 
 
@@ -152,8 +196,10 @@ void collision() {
 void manageTail() {
 
   //Call the drawTail and checkTailCollision methods.
+drawTail();
+checkTailCollision();
+  // Add a new Segment to your ArrayList that has the same X and Y as the head of your snake
 
-  // Add a new Segment to your ArrayList that has the same X and Y as the head of your snake.
 
   // To keep your tail the right length:
   // while the tail size is greater than the number of food pieces eaten, remove the first Segment in your tail.
