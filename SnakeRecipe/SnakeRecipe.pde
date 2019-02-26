@@ -59,7 +59,7 @@ void setup() {
 
 
   // 10. initialize your head to a new segment.
-head= new Segment(0,0);
+head= new Segment(250,250);
 
   // 11. Use the frameRate(int rate) method to set the rate to 20.
    
@@ -94,7 +94,7 @@ void drawFood() {
 void drawSnake() {
 
  fill(0,255,255);
-  rect(300, 200, 10, 10);
+  rect(head.getX(), head.getY(), 10, 10);
   
   //test your code
 }
@@ -110,16 +110,16 @@ void move() {
  
   switch(direction) {
   case "up":
-     head.setY(head.getY()+10);
+     head.setY(head.getY()-10);
     break;
   case "down":
-    head.setY(head.getY()-10);
+    head.setY(head.getY()+10);
     break;
   case "left":
     head.setX(head.getX()-10);
     break;
   case "right":
-     head.setX(head.getX()-10);
+     head.setX(head.getX()+10);
     break;
   }
 
@@ -162,14 +162,27 @@ void keyPressed() {
 // 19. check if your head is out of bounds (teleport your snake head to the other side).
 
 void checkBoundaries() {
-  boolean headInBounds=true;
+  
+  if(head.getX()>=width){
+    head.setX(0);
+  }
+  if(head.getY()>=height){
+    head.setY(0);
+  }
+    if(head.getX()<0){
+    head.setX(width-10);
+  }
+  if(head.getY()<0){
+    head.setY(height-10);
+  }
+  
 }
 
 
 
 //20. Make sure that the key for your current direction’s opposite doesn’t work(i.e. If you’re going up, down key shouldn’t work)
 
-
+//DONE
 
 
 // 21. Complete the missing parts of the collision method below.
@@ -178,6 +191,12 @@ void collision() {
 
   // If the segment is colliding with a piece of food...
      // Increase the amount of food eaten and set foodX and foodY to new random locations.
+  
+    if(head.getX()==foodX && head.getY()==foodY){
+     foodX=(int)random(width/10)*10;
+     foodY=(int)random(height/10)*10;
+    }
+    
 }
 
 
@@ -189,7 +208,8 @@ void collision() {
  **/
 
 //  1. Create and initialize an ArrayList of Segments. (This will be your snake tail!)
-
+ArrayList<Segment> segments= new ArrayList<Segment>();
+//segment.add
 
 // 2. Complete the missing parts of the manageTail method below and call it in the draw method.
 
