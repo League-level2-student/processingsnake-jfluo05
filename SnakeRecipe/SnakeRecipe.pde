@@ -238,8 +238,11 @@ void drawTail() {
 void checkTailCollision() {
 
   // If your head has the same location as one of your segments...
-
+  for (Segment seg : segments){
+   if (head.getX()==seg.getX() && head.getY()==seg.getY()) {
   // reset your food variable
-
+numOfFoodConsumed=0;
   //Call this method at the beginning of your manageTail method.
+}
+}
 }
